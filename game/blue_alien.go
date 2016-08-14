@@ -14,7 +14,7 @@ components {
   }
   properties {
     id: "color"
-    value: "green"
+    value: "blue"
     type: PROPERTY_TYPE_HASH
   }
 }
@@ -26,9 +26,9 @@ embedded_components {
   "mass: 0.0\n"
   "friction: 0.1\n"
   "restitution: 0.5\n"
-  "group: \"green_alien\"\n"
+  "group: \"blue_alien\"\n"
   "mask: \"ground\"\n"
-  "mask: \"green_tile\"\n"
+  "mask: \"blue_tile\"\n"
   "mask: \"danger\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
@@ -47,8 +47,8 @@ embedded_components {
   "    index: 0\n"
   "    count: 3\n"
   "  }\n"
-  "  data: 20.0\n"
-  "  data: 25.0\n"
+  "  data: 22.0\n"
+  "  data: 27.0\n"
   "  data: 10.0\n"
   "}\n"
   "linear_damping: 0.0\n"
@@ -71,7 +71,7 @@ embedded_components {
   id: "sprite"
   type: "sprite"
   data: "tile_set: \"/assets/game.atlas\"\n"
-  "default_animation: \"green_idle\"\n"
+  "default_animation: \"blue_idle\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""

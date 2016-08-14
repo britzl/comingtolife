@@ -24,6 +24,7 @@ embedded_components {
   "group: \"red_alien\"\n"
   "mask: \"ground\"\n"
   "mask: \"red_tile\"\n"
+  "mask: \"danger\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"
@@ -64,7 +65,7 @@ embedded_components {
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/assets/aliens.atlas\"\n"
+  data: "tile_set: \"/assets/game.atlas\"\n"
   "default_animation: \"red_idle\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"

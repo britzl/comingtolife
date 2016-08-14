@@ -1,10 +1,110 @@
 name: "default"
 instances {
+  id: "block1"
+  prototype: "/game/block.go"
+  position {
+    x: 544.0
+    y: 277.06165
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "block2"
+  prototype: "/game/block.go"
+  position {
+    x: 608.0
+    y: 277.06165
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "block3"
+  prototype: "/game/block.go"
+  position {
+    x: 672.0
+    y: 277.06165
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "block4"
+  prototype: "/game/block.go"
+  position {
+    x: 736.0
+    y: 277.06165
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
   id: "green1"
   prototype: "/game/green_alien.go"
   position {
-    x: 321.0613
-    y: 140.70352
+    x: 454.78592
+    y: 180.32562
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "green2"
+  prototype: "/game/green_alien.go"
+  position {
+    x: 619.97034
+    y: 425.85416
     z: 0.0
   }
   rotation {
@@ -24,7 +124,7 @@ instances {
   prototype: "/game/red_alien.go"
   position {
     x: 184.8603
-    y: 205.08945
+    y: 489.20767
     z: 0.0
   }
   rotation {
@@ -65,10 +165,11 @@ embedded_instances {
   "mass: 0.0\\n"
   "friction: 0.1\\n"
   "restitution: 0.5\\n"
-  "group: \\\"level\\\"\\n"
+  "group: \\\"ground\\\"\\n"
   "mask: \\\"red_alien\\\"\\n"
   "mask: \\\"blue_alien\\\"\\n"
   "mask: \\\"green_alien\\\"\\n"
+  "mask: \\\"ground\\\"\\n"
   "linear_damping: 0.0\\n"
   "angular_damping: 0.0\\n"
   "locked_rotation: false\\n"

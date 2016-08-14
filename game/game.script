@@ -1,4 +1,4 @@
-local colors = { hash("red"), hash("green"), hash("blue") }
+local colors = { hash("green"), hash("red"), hash("blue") }
 
 local HASH_TRIGGER = hash("trigger")
 local HASH_ACTIVATE = hash("activate")
@@ -8,6 +8,7 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.current_color = 0
 	self.aliens = {}
+	self.blocks = {}
 end
 
 function final(self)
@@ -20,10 +21,24 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash("register") then
-		print("register", message.color, sender)
+	if message_id == hash("register_alien") then
+		print("register alien", message.color, sender)
 		table.insert(self.aliens, { url = sender, color = message.color })
-		pprint(self.aliens)
+	elseif message_id == hash("unregister_alien") then
+		for k,alien in pairs(self.aliens) do
+			if alien.url == sender then
+				self.aliens[k] = nil
+				print("removed")
+			end
+		end
+	elseif message_id == hash("register_block") then
+		print("register block", message.color, sender)
+		table.insert(self.blocks, { url = sender })
+	elseif message_id == hash("trigger_blocks") then
+		print("triggering blocks")
+		for _,block in pairs(self.blocks) do
+			msg.post(block.url, "trigger")
+		end
 	end
 end
 

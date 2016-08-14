@@ -1,3 +1,6 @@
+images {
+  image: "/assets/images/blockBrown.png"
+}
 animations {
   id: "red_walk"
   images {
