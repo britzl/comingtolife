@@ -1,0 +1,39 @@
+go.property("color", hash("red"))
+
+local animations = {
+	[hash("red")] = { walk = hash("red_walk"), idle = hash("red_idle") },
+	[hash("green")] = { walk = hash("green_walk"), idle = hash("green_idle") },
+	[hash("blue")] = { walk = hash("blue_walk"), idle = hash("blue_idle") },
+}
+
+function init(self)
+	msg.post("game:/game", "register", { color = self.color })
+	self.ground_contact = false
+end
+
+function final(self)
+    -- Add finalization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+	if self.active then
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("activate") then
+		self.active = true
+		print("activate")
+		msg.post("#sprite", "play_animation", { id = animations[self.color].walk })
+	elseif message_id == hash("deactivate") then
+		self.active = false
+		print("deactivate")
+		msg.post("#sprite", "play_animation", { id = animations[self.color].idle })
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

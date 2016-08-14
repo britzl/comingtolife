@@ -1,0 +1,51 @@
+local colors = { hash("red"), hash("green"), hash("blue") }
+
+local HASH_TRIGGER = hash("trigger")
+local HASH_ACTIVATE = hash("activate")
+local HASH_DEACTIVATE = hash("deactivate")
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.current_color = 0
+	self.aliens = {}
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+    -- Add update code here
+    -- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("register") then
+		print("register", message.color, sender)
+		table.insert(self.aliens, { url = sender, color = message.color })
+		pprint(self.aliens)
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == HASH_TRIGGER and action.pressed then
+		print("trigger")
+		self.current_color = self.current_color + 1
+		if self.current_color > #colors then
+			self.current_color = 1
+		end
+		local color = colors[self.current_color]
+		for _,alien in pairs(self.aliens) do
+			if alien.color ==  color then
+				msg.post(alien.url, HASH_ACTIVATE)
+			else
+				msg.post(alien.url, HASH_DEACTIVATE)
+			end
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end
