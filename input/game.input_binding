@@ -1,8 +1,0 @@
-key_trigger {
-  input: KEY_SPACE
-  action: "trigger"
-}
-mouse_trigger {
-  input: MOUSE_BUTTON_1
-  action: "trigger"
-}
