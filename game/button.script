@@ -1,0 +1,50 @@
+go.property("energy", 5)
+
+local animations = {
+	["normal"] = { released = hash("button"), pressed = hash("button_pressed") },
+	["gold"] = { released = hash("goldbutton"), pressed = hash("goldbutton_pressed") },
+}
+
+local function press(self)
+	self.pressed = true
+	msg.post("#sprite", "play_animation", { id = animations[self.type].pressed })
+	msg.post("game:/cube/cube#script", "trigger", { amount = self.energy })
+end
+
+local function release(self)
+	self.pressed = false
+	msg.post("#sprite", "play_animation", { id = animations[self.type].released })
+end
+
+function init(self)
+	self.pressed = false
+	self.type = "normal"
+end
+
+function final(self)
+    -- Add finalization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+	if self.on_button and not self.pressed then
+		press(self)
+	elseif not self.on_button and self.pressed then
+		release(self)
+	end
+	
+	self.on_button = false
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("collision_response") then
+		self.on_button = true
+	elseif message_id == hash("upgrade_button") then
+		
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

@@ -1,0 +1,164 @@
+images {
+  image: "/assets/images/button.png"
+}
+images {
+  image: "/assets/images/button_pressed.png"
+}
+images {
+  image: "/assets/images/coin.png"
+}
+images {
+  image: "/assets/images/transparent1px.png"
+}
+images {
+  image: "/assets/images/goldbutton.png"
+}
+images {
+  image: "/assets/images/goldbutton_pressed.png"
+}
+animations {
+  id: "player_idle"
+  images {
+    image: "/assets/images/player_idle1.png"
+  }
+  images {
+    image: "/assets/images/player_idle2.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 2
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_run"
+  images {
+    image: "/assets/images/player_idle2.png"
+  }
+  images {
+    image: "/assets/images/player_run1.png"
+  }
+  images {
+    image: "/assets/images/player_run2.png"
+  }
+  images {
+    image: "/assets/images/player_run1.png"
+  }
+  images {
+    image: "/assets/images/player_idle2.png"
+  }
+  images {
+    image: "/assets/images/player_run1.png"
+  }
+  images {
+    image: "/assets/images/player_run3.png"
+  }
+  images {
+    image: "/assets/images/player_run1.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_jump"
+  images {
+    image: "/assets/images/player_idle1.png"
+  }
+  images {
+    image: "/assets/images/player_jump1.png"
+  }
+  images {
+    image: "/assets/images/player_jump2.png"
+  }
+  images {
+    image: "/assets/images/player_jump3.png"
+  }
+  playback: PLAYBACK_ONCE_PINGPONG
+  fps: 20
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "cube_active"
+  images {
+    image: "/assets/images/cube1.png"
+  }
+  images {
+    image: "/assets/images/cube2.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "cube_idle"
+  images {
+    image: "/assets/images/cube1.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "blob_move"
+  images {
+    image: "/assets/images/blob_move1.png"
+  }
+  images {
+    image: "/assets/images/blob_move2.png"
+  }
+  images {
+    image: "/assets/images/blob_move1.png"
+  }
+  images {
+    image: "/assets/images/blob_move3.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "bomb"
+  images {
+    image: "/assets/images/bomb.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "explosion"
+  images {
+    image: "/assets/images/explosion1.png"
+  }
+  images {
+    image: "/assets/images/explosion2.png"
+  }
+  images {
+    image: "/assets/images/explosion3.png"
+  }
+  images {
+    image: "/assets/images/explosion4.png"
+  }
+  images {
+    image: "/assets/images/explosion5.png"
+  }
+  images {
+    image: "/assets/images/explosion6.png"
+  }
+  images {
+    image: "/assets/images/explosion7.png"
+  }
+  playback: PLAYBACK_ONCE_PINGPONG
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

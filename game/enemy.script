@@ -1,0 +1,37 @@
+go.property("target", hash(""))
+go.property("speed", 3)
+
+function init(self)
+	print("my starget is", self.target)
+    -- Add initialization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+	local to = go.get_world_position()
+	local from = go.get_world_position(self.target)
+
+	local angle = math.atan2(to.x - from.x, from.y - to.y)
+	rotation = vmath.quat_rotation_z(angle)
+
+	local distance = self.speed * dt
+	local direction = vmath.rotate(rotation, vmath.vector3(0, distance, 0))
+	go.set_position(go.get_position() + direction)
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("contact_point_response") then
+		if message.group == hash("cube") then
+			go.delete()
+		elseif message.group == hash("bomb") then
+			go.delete()
+		else
+			go.set_position(go.get_position(id) - message.normal * message.distance * 0.9)
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

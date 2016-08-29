@@ -1,0 +1,62 @@
+local flow = require "ludobits.m.flow"
+
+local UPDATE_GOLD = hash("update_gold")
+local SHOW_MESSAGE = hash("show_message")
+
+local function show_message(self, message)
+	print("show message", message.text)
+	local co = coroutine.running()
+	assert(co, "You must run this function from a coroutine")
+	gui.animate(self.message_node, gui.PROP_COLOR, vmath.vector4(1, 1, 1, 1), gui.EASING_LINEAR, 0)
+	gui.set_color(self.message_node, vmath.vector4(1, 1, 1, 1))
+
+	gui.set_position(self.message_node, self.message_node_pos - vmath.vector3(0, 50, 0))
+	gui.set_text(self.message_node, message.text)
+	gui.animate(self.message_node, gui.PROP_POSITION, self.message_node_pos, gui.EASING_OUTQUAD, 0.8, 0, function()
+		coroutine.resume(co)
+	end)
+	coroutine.yield()
+	flow.delay(message.duration or 2)
+	gui.animate(self.message_node, gui.PROP_COLOR, vmath.vector4(1, 1, 1, 0), gui.EASING_LINEAR, 0.3, 0, function()
+		coroutine.resume(co)
+	end)
+	coroutine.yield()
+end
+
+
+function init(self)
+	self.messages = {}
+	
+	self.gold_node = gui.get_node("gold/value")
+	self.message_node = gui.get_node("message")
+	self.message_node_pos = gui.get_position(self.message_node)
+	
+	self.flow_instance = flow.start(function()
+		while true do
+			if #self.messages == 0 then
+				flow.delay(0.5)
+			else
+				local message = table.remove(self.messages, 1)
+				show_message(self, message)
+			end
+		end
+	end)
+end
+
+function final(self)
+	flow.stop(self.flow_instance)
+end
+
+function on_message(self, message_id, message, sender)
+	flow.on_message(message_id, message, sender)
+	if message_id == UPDATE_GOLD then
+		gui.set_text(self.gold_node, tostring(message.value))
+	elseif message_id == SHOW_MESSAGE then
+		table.insert(self.messages, message)
+	end
+end
+
+function on_reload(self)
+    -- Add input-handling code here
+    -- Remove this function if not needed
+end

@@ -1,0 +1,12 @@
+function on_message(self, message_id, message, sender)
+	if message_id == hash("contact_point_response") then
+		if message.group == hash("enemy") then
+			if not self.exploding then
+				self.exploding = true
+				msg.post("#sprite", "play_animation", { id = hash("explosion") })
+			end
+		end
+	elseif message_id == hash("animation_done") then
+		go.delete()
+	end
+end

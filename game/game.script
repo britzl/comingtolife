@@ -1,0 +1,59 @@
+local flow = require "ludobits.m.flow"
+local input = require "ludobits.m.input"
+
+local function show_message(text, duration, wait)
+	duration = duration or 3
+	msg.post("#gui", "show_message", { text = text, duration = duration })
+	if wait then
+		flow.delay(duration)
+	end
+end
+
+local function get_gold()
+	return go.get("game:/player/player#script", "gold")
+end
+
+function init(self)
+	math.randomseed(os.time())
+	self.flow_instance = flow.start(function()
+		input.release("game:/player/player")
+		show_message("Umm, where am I?", 3, true)
+		input.acquire("game:/player/player")
+		show_message("I wonder what that big cube is all about?", 5)
+		flow.until_message(hash("update_gold"))
+		show_message("OMG! What the hell just happened?", 2)
+		flow.until_true(function()
+			return get_gold() > 25
+		end)
+		show_message("Gold! Gold! Gold!", 2)
+		flow.until_true(function()
+			return get_gold() > 50
+		end)
+		show_message("I'll be richer than king Midas if I keep this up!", 3)
+		flow.until_message(hash("blob_spawned"))
+		show_message("Uh-oh! What's that green thing?", 2, true)
+		show_message("And why is it coming towards my moneymaker?!", 3)
+		show_message("Maybe some chinese gun powder will stop them?", 2)
+		show_message("Press keyboard to trade gold for a bomb!", 2)
+		flow.until_message(hash("bomb_created"))
+		show_message("That's it!", 2)
+		
+	end)
+end
+
+function final(self)
+	flow.stop(self.flow_instance)
+end
+
+function update(self, dt)
+	flow.update()
+end
+
+function on_message(self, message_id, message, sender)
+	flow.on_message(message_id, message, sender)
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

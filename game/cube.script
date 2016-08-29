@@ -1,0 +1,76 @@
+go.property("energy_per_coin", 0.09)
+go.property("blob_radius", 120)
+go.property("coins_per_blob", 70)
+go.property("coin_limit_for_blobs", 100)
+
+local function spawn_blob(self)
+	local angle = math.rad(math.random(1, 360))
+	local radius = self.blob_radius
+	local pos = go.get_world_position("factories") + vmath.vector3(math.sin(angle) * radius, math.cos(angle) * radius, 0)
+	factory.create("factories#blob", pos, nil, { target = go.get_id() })
+	msg.post("game:/game", "blob_spawned")
+end
+
+
+local function spawn_coin(self)
+	local id = factory.create("factories#coin", go.get_world_position("factories"))
+	self.coins_spawned = self.coins_spawned + 1
+	if self.coins_spawned % self.coins_per_blob == 0 and self.coins_spawned >= self.coin_limit_for_blobs then
+		spawn_blob(self)
+	end
+end
+
+function init(self)
+	self.energy = 0
+	self.energy_until_coin = self.energy_per_coin
+	self.coins_spawned = 0
+	self.blobs_enabled = false
+end
+
+function final(self)
+    -- Add finalization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+	if self.energy > 0 then
+		local delta_energy = 1 * dt
+		self.energy = self.energy - delta_energy
+		if self.energy < 0 then
+			self.energy = 0
+			msg.post("#sprite", "play_animation", { id = hash("cube_idle") })
+		end
+
+		self.energy_until_coin = self.energy_until_coin - delta_energy
+		while self.energy_until_coin < 0 do
+			self.energy_until_coin = self.energy_until_coin + self.energy_per_coin
+			spawn_coin(self)
+		end
+	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("trigger") then
+		if self.energy == 0 then
+			msg.post("#sprite", "play_animation", { id = hash("cube_active") })
+		end
+		self.energy = self.energy + message.amount or 1
+	elseif message_id == hash("collision_response") then
+		if message.group == hash("enemy") then
+			self.energy = 0
+			msg.post("#sprite", "play_animation", { id = hash("cube_idle") })
+			msg.post("menu:/menu", "game_over")
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+    -- Add input-handling code here
+    -- Remove this function if not needed
+end
+
+function on_reload(self)
+	spawn_coin()
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

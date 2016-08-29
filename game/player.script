@@ -1,0 +1,134 @@
+go.property("gold", 0)
+
+local input = require "ludobits.m.input"
+local kinematic = require "ludobits.m.kinematic"
+
+local LEFT = hash("left")
+local RIGHT = hash("right")
+local UP = hash("up")
+local DOWN = hash("down")
+local JUMP = hash("jump")
+local TRIGGER = hash("trigger")
+
+local MOVEMENT_SPEED = 40
+
+local function drop_bomb(self)
+	local bomb_cost = 100
+	if self.gold < bomb_cost then
+		msg.post("game:/game", "show_message", { text = "Damn. I need more gold!" })
+	else
+		factory.create("factories#bomb", go.get_world_position("factories#bomb"))
+		msg.post("game:/game", "bomb_created")
+		self.gold = self.gold - bomb_cost
+		msg.post("game:/game", "update_gold", { value = self.gold })
+	end
+end
+
+local function idle(self)
+	if not self.idle then
+		self.idle = true
+		self.running = false
+		msg.post("#sprite", "play_animation", {id = hash("player_idle")})
+	end
+end
+
+local function run(self)
+	if not self.running then
+		self.idle = false
+		self.running = true
+		msg.post("#sprite", "play_animation", {id = hash("player_run")})
+	end
+end
+
+local function jump(self)
+	self.jumping = true
+	msg.post("#sprite", "play_animation", {id = hash("player_jump")})
+end
+
+function init(self)
+	self.kinematic = kinematic.create()
+	self.gold = 0
+	idle(self)
+	input.acquire()
+end
+
+function final(self)
+	input.release()
+end
+
+function update(self, dt)
+	if not self.jumping then
+		local speed = vmath.vector3()
+		if input.is_pressed(LEFT) and not self.left_contact then
+			run(self)
+			speed.x = -MOVEMENT_SPEED
+			sprite.set_hflip("#sprite", false)
+		elseif input.is_pressed(RIGHT) and not self.right_contact then
+			run(self)
+			speed.x = MOVEMENT_SPEED
+			sprite.set_hflip("#sprite", true)
+		end
+		if input.is_pressed(UP) and not self.up_contact then
+			run(self)
+			speed.y = MOVEMENT_SPEED
+		elseif input.is_pressed(DOWN) and not self.down_contact then
+			run(self)
+			speed.y = -MOVEMENT_SPEED
+		end
+		
+		if speed.x == 0 and speed.y == 0 then
+			idle(self)
+		end
+		go.set_position(go.get_position() + speed * dt)
+	end
+
+	-- reset volatile state
+	self.up_contact = false
+	self.down_contact = false
+	self.left_contact = false
+	self.right_contact = false
+	
+	self.kinematic.update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+	--self.kinematic.on_message(message_id, message, sender)
+	if message_id == hash("contact_point_response") then
+		if message.group == hash("wall") or message.group == hash("cube") then
+			if message.normal.y == -1 then
+				self.up_contact = true
+			elseif message.normal.y == 1 then
+				self.down_contact = true
+			end
+			if message.normal.x == 1 then
+				self.left_contact = true
+			elseif message.normal.x == -1 then
+				self.right_contact = true
+			end
+			go.set_position(go.get_position(id) - message.normal * message.distance * 0.9)
+		end
+	elseif message_id == hash("animation_done") then
+		if message.id == hash("player_jump") then
+			self.jumping = false
+			self.idle = false
+			self.running = false
+		end
+	elseif message_id == hash("collect_gold") then
+		self.gold = self.gold + message.amount
+		msg.post("game:/game", "update_gold", { value = self.gold })
+	end
+end
+
+function on_input(self, action_id, action)
+	input.update(action_id, action)
+	if action_id == JUMP and action.released then
+		jump(self)
+	elseif action_id == TRIGGER and action.released then
+		drop_bomb(self)
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end

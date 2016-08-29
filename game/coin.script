@@ -1,0 +1,39 @@
+local flow = require "ludobits.m.flow"
+
+local function animate(self, to, playback, duration, easing)
+	local co = coroutine.running()
+	go.cancel_animations(".", "position")
+	go.animate(".", "position", playback, to, easing or go.EASING_LINEAR, duration, 0, function()
+		coroutine.resume(co)
+	end)
+	coroutine.yield()
+end
+
+
+function init(self)
+	self.flow_instance = flow.start(function()
+		animate(self, go.get_position() + vmath.vector3(math.random(0, 20) - 10, -math.random(15, 25), 0), go.PLAYBACK_ONCE_FORWARD, 0.2, go.EASING_OUTCIRC)
+		animate(self, go.get_position() + vmath.vector3(0, math.random(4, 6), 0), go.PLAYBACK_ONCE_PINGPONG, 0.2, go.EASING_OUTCIRC)
+		animate(self, go.get_position() + vmath.vector3(0, math.random(2, 5), 0), go.PLAYBACK_ONCE_PINGPONG, 0.15, go.EASING_OUTCIRC)
+		animate(self, go.get_position() + vmath.vector3(0, math.random(1, 2), 0), go.PLAYBACK_ONCE_PINGPONG, 0.1, go.EASING_OUTCIRC)
+		msg.post("game:/player/player", "collect_gold", { amount = 1 })
+		go.delete()
+	end)
+end
+
+function final(self)
+	flow.stop(self.flow_instance)
+end
+
+function update(self, dt)
+	flow.update()
+end
+
+function on_message(self, message_id, message, sender)
+	flow.on_message(message_id, message, sender)
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end
