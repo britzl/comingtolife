@@ -1,0 +1,134 @@
+images {
+  image: "/assets/images/blockBrown.png"
+}
+animations {
+  id: "red_walk"
+  images {
+    image: "/assets/images/playerRed_walk1.png"
+  }
+  images {
+    image: "/assets/images/playerRed_walk2.png"
+  }
+  images {
+    image: "/assets/images/playerRed_walk3.png"
+  }
+  images {
+    image: "/assets/images/playerRed_walk4.png"
+  }
+  images {
+    image: "/assets/images/playerRed_walk5.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 15
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "green_walk"
+  images {
+    image: "/assets/images/playerGreen_walk1.png"
+  }
+  images {
+    image: "/assets/images/playerGreen_walk2.png"
+  }
+  images {
+    image: "/assets/images/playerGreen_walk3.png"
+  }
+  images {
+    image: "/assets/images/playerGreen_walk4.png"
+  }
+  images {
+    image: "/assets/images/playerGreen_walk5.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 15
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "grey_walk"
+  images {
+    image: "/assets/images/playerGrey_walk1.png"
+  }
+  images {
+    image: "/assets/images/playerGrey_walk2.png"
+  }
+  images {
+    image: "/assets/images/playerGrey_walk3.png"
+  }
+  images {
+    image: "/assets/images/playerGrey_walk4.png"
+  }
+  images {
+    image: "/assets/images/playerGrey_walk5.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 15
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "blue_walk"
+  images {
+    image: "/assets/images/playerBlue_walk1.png"
+  }
+  images {
+    image: "/assets/images/playerBlue_walk2.png"
+  }
+  images {
+    image: "/assets/images/playerBlue_walk3.png"
+  }
+  images {
+    image: "/assets/images/playerBlue_walk4.png"
+  }
+  images {
+    image: "/assets/images/playerBlue_walk5.png"
+  }
+  playback: PLAYBACK_LOOP_PINGPONG
+  fps: 15
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "green_idle"
+  images {
+    image: "/assets/images/playerGreen_stand.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "blue_idle"
+  images {
+    image: "/assets/images/playerBlue_stand.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "grey_idle"
+  images {
+    image: "/assets/images/playerGrey_stand.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "red_idle"
+  images {
+    image: "/assets/images/playerRed_stand.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 30
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0

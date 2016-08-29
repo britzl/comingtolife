@@ -1,0 +1,66 @@
+local colors = { hash("green"), hash("red"), hash("blue") }
+
+local HASH_TRIGGER = hash("trigger")
+local HASH_ACTIVATE = hash("activate")
+local HASH_DEACTIVATE = hash("deactivate")
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.current_color = 0
+	self.aliens = {}
+	self.blocks = {}
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+    -- Add update code here
+    -- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("register_alien") then
+		print("register alien", message.color, sender)
+		table.insert(self.aliens, { url = sender, color = message.color })
+	elseif message_id == hash("unregister_alien") then
+		for k,alien in pairs(self.aliens) do
+			if alien.url == sender then
+				self.aliens[k] = nil
+				print("removed")
+			end
+		end
+	elseif message_id == hash("register_block") then
+		print("register block", message.color, sender)
+		table.insert(self.blocks, { url = sender })
+	elseif message_id == hash("trigger_blocks") then
+		print("triggering blocks")
+		for _,block in pairs(self.blocks) do
+			msg.post(block.url, "trigger")
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	if action_id == HASH_TRIGGER and action.pressed then
+		print("trigger")
+		self.current_color = self.current_color + 1
+		if self.current_color > #colors then
+			self.current_color = 1
+		end
+		local color = colors[self.current_color]
+		for _,alien in pairs(self.aliens) do
+			if alien.color ==  color then
+				msg.post(alien.url, HASH_ACTIVATE)
+			else
+				msg.post(alien.url, HASH_DEACTIVATE)
+			end
+		end
+	end
+end
+
+function on_reload(self)
+    -- Add reload-handling code here
+    -- Remove this function if not needed
+end
