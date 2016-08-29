@@ -87,8 +87,14 @@ animations {
   images {
     image: "/assets/images/cube2.png"
   }
+  images {
+    image: "/assets/images/cube3.png"
+  }
+  images {
+    image: "/assets/images/cube4.png"
+  }
   playback: PLAYBACK_LOOP_FORWARD
-  fps: 30
+  fps: 40
   flip_horizontal: 0
   flip_vertical: 0
 }
